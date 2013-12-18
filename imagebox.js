@@ -58,6 +58,11 @@
     this.resize();
   }
 
+  ImageBox.prototype.setScalingType = function(scalingType) {
+    this.scalingType = scalingType;
+    this.resize();
+  };
+
   ImageBox.prototype.resize = function() {
     if(this.scalingType === "horizontalFill") {
       this.resizeHorizontalFill();

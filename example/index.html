@@ -8,19 +8,32 @@
   <style>
     * { margin: 0; padding: 0; }
     .imagebox-demo { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
-    .imagebox-demo [role=fullscreen] { position: absolute; bottom: 20px; right: 20px; }
+    .imagebox-demo .controls { position: fixed; bottom: 20px; right: 20px; }
   </style>
 </head>
 <body>
 
 <div class="imagebox-demo">
   <img src="tall.jpg" data-width="640" data-height="960">
-  <button role="fullscreen">Full screen</button>
+
+  <div class="controls">
+    <button role="fullscreen">Full screen</button>
+    <button role="scale-horizontal-fill">Horizontal fill</button>
+    <button role="scale-fit">Fit</button>
+  </div>
 </div>
 
 <script>
 (function() {
   var imageBox = new ImageBox(".imagebox-demo");
+
+  document.querySelector('[role=scale-fit]').addEventListener('click', function() {
+    imageBox.setScalingType('fit');
+  }, false);
+
+  document.querySelector('[role=scale-horizontal-fill]').addEventListener('click', function() {
+    imageBox.setScalingType('horizontalFill');
+  }, false);
 
   if (imageBox.supportsFullScreen) {
     var fullScreenButton = document.querySelector("[role=fullscreen]");
