@@ -5,6 +5,10 @@
     }
   }
 
+  function isNullOrUndefined(o) {
+    return typeof o === 'undefined' || o === null;
+  }
+
   // http://stackoverflow.com/a/384380/223408
   function isNode(o){
     return (
@@ -21,7 +25,7 @@
     var self = this;
     options = options || {};
 
-    if (el !== undefined) {
+    if (!isNullOrUndefined(el)) {
       // selector
       if (typeof el === 'string') {
         options.selector = el;
@@ -47,23 +51,19 @@
     }
 
     this.container = elements[0];
-    this.src = options.imageSrc || this.container.getAttribute('data-image-src');
-    this.imageWidth = options.imageWidth || this.container.getAttribute('data-image-width');
-    this.imageHeight = options.imageHeight || this.container.getAttribute('data-image-height');
-    if (typeof this.src === "undefined" || typeof this.imageWidth === "undefined" || typeof this.imageHeight === "undefined") {
-      throw new Error("Must specify image src, width, and height");
+    this.image = document.querySelector(selector + " > img");
+    if (isNullOrUndefined(this.container) || isNullOrUndefined(this.image)) {
+      throw new Error("Container or img not found.");
+    }
+    this.imageWidth = options.imageWidth || this.image.getAttribute('data-width');
+    this.imageHeight = options.imageHeight || this.image.getAttribute('data-height');
+    if (isNullOrUndefined(this.imageWidth) || isNullOrUndefined(this.imageHeight)) {
+      throw new Error("Must specify image width and height");
     }
 
     if(!hasClass(this.container, "imagebox-container")) {
       this.container.className += " imagebox-container";
     }
-
-    this.image = document.createElement('img');
-    this.image.src = this.src;
-    this.image.className = options.className || 'imagebox-image';
-    this.image.alt = options.alt || this.container.getAttribute('data-alt') || '';
-
-    this.container.appendChild(this.image);
 
     window.addEventListener('resize', function(){
       self.onWindowResize();
