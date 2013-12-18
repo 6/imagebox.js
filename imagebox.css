@@ -1,0 +1,9 @@
+.imagebox-container {
+  background-color: black;
+}
+
+.imagebox-container img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

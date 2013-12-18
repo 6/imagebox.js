@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>imagebox.js demo</title>
+  <link rel="stylesheet" href="../imagebox.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="../imagebox.js"></script>
+  <style>
+    * { margin: 0; padding: 0; }
+    .imagebox-demo { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+  </style>
+</head>
+<body>
+
+<div class="imagebox-demo">
+  <img data-src="tall.jpg">
+</div>
+
+<script>
+$(function() {
+  var $container,
+      $image,
+      containerWidth,
+      containerHeight,
+      imageWidth, imageHeight,
+      isImageLoaded = false;
+
+  function init($el, width, height, imageWidth, imageHeight) {
+    $container = $el;
+    $image = $container.find("img");
+    if ($image.length == 0) throw new Error("Unable to find image in lightbox.");
+
+    var imageSrc = $image.attr("data-src");
+    if (typeof(imageSrc) === "undefined" || imageSrc === "") throw new Error("Must set `data-src` on img tag");
+
+    $container.addClass("imagebox-container");
+    $container.css({width: width, height: height});
+
+    $image.on('load', onImageLoad);
+    $image.attr("src", imageSrc);
+  }
+
+  function onImageLoad(e) {
+    imageWidth = $image.width(),
+    imageHeight = $image.height();
+    isImageLoaded = true;
+    resize();
+  }
+
+  function resize() {
+    if(!isImageLoaded) return;
+    var newWidth = "",
+        newHeight = "",
+        containerWidth = $container.width(),
+        containerHeight = $container.height();
+    if(imageWidth >= imageHeight) {
+      var ratio = imageWidth / imageHeight;
+      if (imageWidth >= containerWidth && (imageHeight * ratio) < imageWidth) {
+        newWidth = "100%";
+      }
+    }
+    else {
+      var ratio = imageHeight / imageWidth;
+      if (imageHeight >= containerHeight && (imageWidth * ratio) < imageHeight) {
+        newHeight = "100%";
+      }
+    }
+
+    // Vertical align
+
+    $image.css({width: newWidth, height: newHeight, "max-width": containerWidth, "max-height": containerHeight});
+  }
+
+  init($(".imagebox-demo"), "", "");
+  $(window).on("resize", resize);
+});
+</script>
+
+</body>
+</html>
