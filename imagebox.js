@@ -15,6 +15,7 @@
 
   function ImageBox(selector, options) {
     var self = this;
+    selector = selector || '.imagebox-container';
     options = options || {};
 
     if (!isNullOrUndefined(selector) && typeof selector !== 'string') {
@@ -23,7 +24,6 @@
       selector = undefined;
     }
 
-    selector = selector || '.imagebox-container';
     var elements = document.querySelectorAll(selector);
     if (elements.length === 0) {
       throw new Error("No elements found with selector: "+selector);
