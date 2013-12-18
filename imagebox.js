@@ -1,10 +1,4 @@
 ;(function() {
-  function applyEach (collection, callbackEach) {
-    for (var i = 0; i < collection.length; i++) {
-      callbackEach(collection[i]);
-    }
-  }
-
   function isNullOrUndefined(o) {
     return typeof o === 'undefined' || o === null;
   }
@@ -13,32 +7,22 @@
     return el.className.match(new RegExp('(^| )' + className + '( |$)'));
   }
 
-  function ImageBox(selector, options) {
+  function ImageBox(el, options) {
     var self = this;
-    selector = selector || '.imagebox-container';
     options = options || {};
 
-    if (!isNullOrUndefined(selector) && typeof selector !== 'string') {
-      // config object
-      options = selector;
-      selector = undefined;
+    if (typeof el === "string") {
+      el = document.querySelector(el);
     }
 
-    var elements = document.querySelectorAll(selector);
-    if (elements.length === 0) {
-      throw new Error("No elements found with selector: "+selector);
-    }
-    else if (elements.length > 1) {
-      applyEach(elements, function(element) {
-        new ImageBox(element, options);
-      });
-      return;
+    this.container = el;
+    if (isNullOrUndefined(this.container)) {
+      throw new Error("No container element specified.");
     }
 
-    this.container = elements[0];
-    this.image = document.querySelector(selector + " > img");
-    if (isNullOrUndefined(this.container) || isNullOrUndefined(this.image)) {
-      throw new Error("Container or img not found.");
+    this.image = el.querySelector("img");
+    if (isNullOrUndefined(this.image)) {
+      throw new Error("No <img> found inside container element.");
     }
 
     this.imageWidth = options.imageWidth || this.image.getAttribute('data-width');
