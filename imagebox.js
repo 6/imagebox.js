@@ -66,13 +66,13 @@
     }
 
     window.addEventListener('resize', function(){
-      self.onWindowResize();
+      self.resize();
     }, false);
 
-    this.onWindowResize();
+    this.resize();
   }
 
-  ImageBox.prototype.onWindowResize = function() {
+  ImageBox.prototype.resize = function() {
     var newPaddingTop = 0,
         newWidth = this.imageWidth,
         newHeight = this.imageHeight,
