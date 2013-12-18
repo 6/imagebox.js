@@ -26,7 +26,7 @@ $(function() {
       imageWidth, imageHeight,
       isImageLoaded = false;
 
-  function init($el, width, height, imageWidth, imageHeight) {
+  function init($el, containerWidth, containerHeight) {
     $container = $el;
     $image = $container.find("img");
     if ($image.length == 0) throw new Error("Unable to find image in lightbox.");
@@ -35,7 +35,7 @@ $(function() {
     if (typeof(imageSrc) === "undefined" || imageSrc === "") throw new Error("Must set `data-src` on img tag");
 
     $container.addClass("imagebox-container");
-    $container.css({width: width, height: height});
+    $container.css({width: containerWidth, height: containerHeight});
 
     $image.on('load', onImageLoad);
     $image.attr("src", imageSrc);
@@ -45,35 +45,41 @@ $(function() {
     imageWidth = $image.width(),
     imageHeight = $image.height();
     isImageLoaded = true;
-    resize();
+    resizeFit();
   }
 
-  function resize() {
+  function resizeFit() {
     if(!isImageLoaded) return;
-    var newWidth = "",
-        newHeight = "",
+    var newWidth = imageWidth,
+        newHeight = imageHeight,
+        paddingTop = 0,
         containerWidth = $container.width(),
-        containerHeight = $container.height();
-    if(imageWidth >= imageHeight) {
-      var ratio = imageWidth / imageHeight;
-      if (imageWidth >= containerWidth && (imageHeight * ratio) < imageWidth) {
-        newWidth = "100%";
+        containerHeight = $container.height(),
+        imageAspectRatio = imageWidth / imageHeight;
+    var containerAspectRatio = containerWidth / containerHeight;
+
+    if (imageAspectRatio >= containerAspectRatio) {
+      if (imageWidth >= containerWidth) {
+        newWidth = containerWidth;
+        newHeight = imageHeight * (containerWidth / imageWidth);
       }
     }
     else {
-      var ratio = imageHeight / imageWidth;
-      if (imageHeight >= containerHeight && (imageWidth * ratio) < imageHeight) {
-        newHeight = "100%";
+      if (imageHeight >= containerHeight) {
+        newWidth = imageWidth * (containerHeight / imageHeight);
+        newHeight = containerHeight;
       }
     }
 
-    // Vertical align
+    if (newHeight < containerHeight) {
+      paddingTop = (containerHeight - newHeight) / 2;
+    }
 
-    $image.css({width: newWidth, height: newHeight, "max-width": containerWidth, "max-height": containerHeight});
+    $image.css({width: newWidth, height: newHeight, "padding-top": paddingTop});
   }
 
   init($(".imagebox-demo"), "", "");
-  $(window).on("resize", resize);
+  $(window).on("resize", resizeFit);
 });
 </script>
 

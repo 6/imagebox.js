@@ -3,7 +3,7 @@
 }
 
 .imagebox-container img {
-  display: block;
+  display: block; /* remove space under img */
   margin-left: auto;
   margin-right: auto;
 }
