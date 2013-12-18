@@ -55,11 +55,14 @@
     if (isNullOrUndefined(this.container) || isNullOrUndefined(this.image)) {
       throw new Error("Container or img not found.");
     }
+
     this.imageWidth = options.imageWidth || this.image.getAttribute('data-width');
     this.imageHeight = options.imageHeight || this.image.getAttribute('data-height');
     if (isNullOrUndefined(this.imageWidth) || isNullOrUndefined(this.imageHeight)) {
       throw new Error("Must specify image width and height");
     }
+
+    this.scalingType = options.defaultScaling || "fit";
 
     if(!hasClass(this.container, "imagebox-container")) {
       this.container.className += " imagebox-container";
@@ -73,6 +76,23 @@
   }
 
   ImageBox.prototype.resize = function() {
+    if(this.scalingType === "horizontalFill") {
+      this.resizeHorizontalFill();
+    }
+    else {
+      this.resizeFit();
+    }
+  };
+
+  ImageBox.prototype.resizeHorizontalFill = function() {
+    // Reset styles that may be set from other resize
+    this.image.style.paddingTop = "";
+    this.image.style.height = "";
+
+    this.image.style.width = this.container.clientWidth + "px";
+  };
+
+  ImageBox.prototype.resizeFit = function() {
     var newPaddingTop = 0,
         newWidth = this.imageWidth,
         newHeight = this.imageHeight,

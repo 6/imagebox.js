@@ -1,5 +1,6 @@
 .imagebox-container {
   background-color: black;
+  overflow-y: scroll;
 }
 
 .imagebox-container img {
