@@ -99,7 +99,7 @@
         containerWidth = this.container.clientWidth,
         containerHeight = this.container.clientHeight,
         imageAspectRatio = this.imageWidth / this.imageHeight;
-        var containerAspectRatio = containerWidth / containerHeight;
+    var containerAspectRatio = containerWidth / containerHeight;
 
     if (imageAspectRatio >= containerAspectRatio) {
       if (this.imageWidth >= containerWidth) {
