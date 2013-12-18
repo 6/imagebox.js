@@ -71,10 +71,10 @@
 
   ImageBox.prototype.resizeHorizontalFill = function() {
     // Reset styles that may be set from other resize
-    this.image.style.paddingTop = "";
     this.image.style.height = "";
 
     this.image.style.width = this.container.clientWidth + "px";
+    this.verticallyCenter();
   };
 
   ImageBox.prototype.resizeFit = function() {
@@ -105,6 +105,16 @@
 
     this.image.style.width = newWidth + "px";
     this.image.style.height = newHeight + "px";
+    this.verticallyCenter();
+  };
+
+  ImageBox.prototype.verticallyCenter = function() {
+    var newPaddingTop = 0,
+        resizedImageHeight = this.image.height,
+        containerHeight = this.container.clientHeight;
+    if(resizedImageHeight < containerHeight) {
+      newPaddingTop = (containerHeight - resizedImageHeight) / 2;
+    }
     this.image.style.paddingTop = newPaddingTop + "px";
   };
 
