@@ -9,37 +9,22 @@
     return typeof o === 'undefined' || o === null;
   }
 
-  // http://stackoverflow.com/a/384380/223408
-  function isNode(o){
-    return (
-      typeof Node === "object" ? o instanceof Node :
-      o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName === "string"
-    );
-  }
-
   function hasClass(el, className) {
     return el.className.match(new RegExp('(^| )' + className + '( |$)'));
   }
 
-  function ImageBox(el, options) {
+  function ImageBox(selector, options) {
     var self = this;
     options = options || {};
 
-    if (!isNullOrUndefined(el)) {
-      // selector
-      if (typeof el === 'string') {
-        options.selector = el;
-        el = undefined;
-      }
+    if (!isNullOrUndefined(selector) && typeof selector !== 'string') {
       // config object
-      else if (!isNode(el)) {
-        options = el;
-        el = undefined;
-      }
+      options = selector;
+      selector = undefined;
     }
 
-    var selector = options.selector || '.imagebox-container';
-    var elements = el || document.querySelectorAll(selector);
+    selector = selector || '.imagebox-container';
+    var elements = document.querySelectorAll(selector);
     if (elements.length === 0) {
       throw new Error("No elements found with selector: "+selector);
     }
