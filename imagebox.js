@@ -7,6 +7,19 @@
     return el.className.match(new RegExp('(^| )' + className + '( |$)'));
   }
 
+  function requestFullScreenFn() {
+    var el = document.documentElement;
+    return el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
+  }
+
+  function exitFullScreenFn() {
+    return document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || document.msCancelFullScreen;
+  }
+
+  function isFullScreen() {
+    return document.fullScreen || document.webkitIsFullScreen || document.mozFullScreen || document.msFullScreen;
+  }
+
   function ImageBox(el, options) {
     var self = this;
     options = options || {};
@@ -32,6 +45,7 @@
     }
 
     this.scalingType = options.defaultScaling || "fit";
+    this.supportsFullScreen = !! requestFullScreenFn() && !! exitFullScreenFn();
 
     if(!hasClass(this.container, "imagebox-container")) {
       this.container.className += " imagebox-container";
@@ -100,6 +114,16 @@
       newPaddingTop = (containerHeight - resizedImageHeight) / 2;
     }
     this.image.style.paddingTop = newPaddingTop + "px";
+  };
+
+  ImageBox.prototype.toggleFullScreen = function() {
+    if (!this.supportsFullScreen) return;
+    if (isFullScreen()) {
+      exitFullScreenFn().call(document);
+    }
+    else {
+      requestFullScreenFn().call(this.container);
+    }
   };
 
   if (typeof module === 'object' && typeof module.exports === 'object') {
