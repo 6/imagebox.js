@@ -4,7 +4,10 @@
   "description": "WIP",
   "version": "0.0.1",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "karma-phantomjs-launcher": "0.1.x",
+    "karma-jasmine": "0.1.x"
+  },
   "scripts": {
     "test": "karma start --single-run --browsers PhantomJS"
   }
