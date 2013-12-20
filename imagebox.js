@@ -38,10 +38,10 @@
       throw new Error("No <img> found inside container element.");
     }
 
-    this.imageWidth = options.imageWidth || this.image.getAttribute('data-width');
-    this.imageHeight = options.imageHeight || this.image.getAttribute('data-height');
-    if (isNullOrUndefined(this.imageWidth) || isNullOrUndefined(this.imageHeight)) {
-      throw new Error("Must specify image width and height");
+    this.imageWidth = options.imageWidth || parseInt(this.image.getAttribute('data-width'));
+    this.imageHeight = options.imageHeight || parseInt(this.image.getAttribute('data-height'));
+    if (isNaN(this.imageWidth) || isNaN(this.imageHeight)) {
+      throw new Error("Must specify image width and height.");
     }
 
     this.scalingType = options.defaultScaling || "fit";

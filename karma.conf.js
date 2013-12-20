@@ -17,6 +17,7 @@ module.exports = function(config) {
       'imagebox.css',
       'test/vendor/jquery.js',
       'test/vendor/**/*.js',
+      'test/support/**/*.js',
       'test/**/*.js',
       'imagebox.js'
     ],
