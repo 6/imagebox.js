@@ -7,6 +7,14 @@
     return el.className.match(new RegExp('(^| )' + className + '( |$)'));
   }
 
+  var raf = window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function(callback) {
+      window.setTimeout(callback, 1000 / 60);
+    };
+
   function ImageBox(el, options) {
     var self = this;
     options = options || {};
@@ -50,15 +58,13 @@
   };
 
   ImageBox.prototype.resize = function() {
-    if(this.scalingType === "horizontalFill") {
-      this.resizeHorizontalFill();
-    }
-    else {
-      this.resizeFit();
-    }
+    var self = this;
+    raf(function() {
+      self[self.scalingType]();
+    });
   };
 
-  ImageBox.prototype.resizeHorizontalFill = function() {
+  ImageBox.prototype.horizontalFill = function() {
     // Reset styles that may be set from other resize
     this.image.style.height = "";
 
@@ -66,7 +72,7 @@
     this.verticallyCenter();
   };
 
-  ImageBox.prototype.resizeFit = function() {
+  ImageBox.prototype.fit = function() {
     var newPaddingTop = 0,
         newWidth = this.imageWidth,
         newHeight = this.imageHeight,
