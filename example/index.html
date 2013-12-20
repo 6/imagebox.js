@@ -17,7 +17,6 @@
   <img src="tall.jpg" data-width="640" data-height="960">
 
   <div class="controls">
-    <button role="fullscreen">Full screen</button>
     <button role="scale-horizontal-fill">Horizontal fill</button>
     <button role="scale-fit">Fit</button>
   </div>
@@ -34,13 +33,6 @@
   document.querySelector('[role=scale-horizontal-fill]').addEventListener('click', function() {
     imageBox.setScalingType('horizontalFill');
   }, false);
-
-  if (imageBox.supportsFullScreen) {
-    var fullScreenButton = document.querySelector("[role=fullscreen]");
-    fullScreenButton.addEventListener('click', function() {
-      imageBox.toggleFullScreen();
-    }, false);
-  }
 })();
 </script>
 
