@@ -39,7 +39,7 @@
       throw new Error("Must specify image width and height.");
     }
 
-    this.scalingType = options.defaultScaling || "fit";
+    this.scalingType = options.scalingType || "fit";
 
     if(!hasClass(this.container, "imagebox-container")) {
       this.container.className += " imagebox-container";
