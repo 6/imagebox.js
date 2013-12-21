@@ -8,7 +8,7 @@
   }
 
   function isValidImageDimension(num) {
-    return !isNullOrUndefined(num) && !isNaN(num) && num !== 0;
+    return !isNullOrUndefined(num) && !isNaN(num) && num > 0;
   }
 
   var raf = window.requestAnimationFrame ||
@@ -72,8 +72,8 @@
     // Reset styles that may be set from other resize
     this.image.style.height = "";
 
-    this.image.style.width = this.container.clientWidth + "px";
-    var resizedImageHeight = (this.container.clientWidth / this.imageWidth) * this.imageHeight;
+    this.image.style.width = this.container.offsetWidth + "px";
+    var resizedImageHeight = (this.container.offsetWidth / this.imageWidth) * this.imageHeight;
     this.verticallyCenter(resizedImageHeight);
   };
 
@@ -81,8 +81,8 @@
     var newPaddingTop = 0,
         newWidth = this.imageWidth,
         newHeight = this.imageHeight,
-        containerWidth = this.container.clientWidth,
-        containerHeight = this.container.clientHeight,
+        containerWidth = this.container.offsetWidth,
+        containerHeight = this.container.offsetHeight,
         imageAspectRatio = this.imageWidth / this.imageHeight;
     var containerAspectRatio = containerWidth / containerHeight;
 
@@ -110,7 +110,7 @@
 
   ImageBox.prototype.verticallyCenter = function(resizedImageHeight) {
     var newPaddingTop = 0,
-        containerHeight = this.container.clientHeight;
+        containerHeight = this.container.offsetHeight;
     if(resizedImageHeight < containerHeight) {
       newPaddingTop = (containerHeight - resizedImageHeight) / 2;
     }

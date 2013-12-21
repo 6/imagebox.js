@@ -79,5 +79,68 @@ describe("ImageBox", function() {
         return new ImageBox($container[0]);
       });
     });
+
+    context("on window resize", function() {
+      var subject, fitSpy, horizontalFillSpy;
+
+      beforeEach(function() {
+        subject = new ImageBox(".container");
+        fitSpy = sinon.spy(subject, 'fit');
+        horizontalFillSpy = sinon.spy(subject, 'horizontalFill');
+      });
+
+      afterEach(function() {
+        fitSpy.restore();
+        horizontalFillSpy.restore();
+      });
+
+      it("calls the appropriate scaling method", function() {
+        expect(fitSpy.called).toBe(false);
+        expect(horizontalFillSpy.called).toBe(false);
+
+        subject.resize();
+        expect(fitSpy.calledOnce).toBe(true);
+        expect(horizontalFillSpy.called).toBe(false);
+
+        subject.setScalingType('horizontalFill');
+
+        expect(fitSpy.calledOnce).toBe(true);
+        expect(horizontalFillSpy.calledOnce).toBe(true);
+      });
+    });
+
+    describe("#fit", function() {
+      it("resizes the image to be fully visible within the container", function() {
+        var subject = new ImageBox(".container");
+
+        $container.css({width: 1000, height: 50});
+        subject.resize();
+        expect($image.width() <= 1000).toBe(true);
+        expect($image.height()).toEqual(50);
+        expect($image.css("padding-top")).toEqual("0px");
+
+        $container.css({width: 50, height: 1000});
+        subject.resize();
+        expect($image.height() <= 1000).toBe(true);
+        expect($image.width()).toEqual(50);
+        expect(parseInt($image.css("padding-top")) > 0).toBe(true);
+      });
+    });
+
+    describe("#horizontalFill", function() {
+      it("resizes the image to fill the container horizontally", function() {
+        var subject = new ImageBox(".container", {scalingType: "horizontalFill"});
+
+        $container.css({width: 2000, height: 300});
+        subject.resize();
+        expect($image.width()).toEqual(2000);
+        expect($image.css("padding-top")).toEqual("0px");
+
+        $container.css({width: 100, height: 500});
+        subject.resize();
+        expect($image.width()).toEqual(100);
+        expect(parseInt($image.css("padding-top")) > 0).toBe(true);
+      });
+    });
   });
 });
