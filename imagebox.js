@@ -69,7 +69,8 @@
     this.image.style.height = "";
 
     this.image.style.width = this.container.clientWidth + "px";
-    this.verticallyCenter();
+    var resizedImageHeight = (this.container.clientWidth / this.imageWidth) * this.imageHeight;
+    this.verticallyCenter(resizedImageHeight);
   };
 
   ImageBox.prototype.fit = function() {
@@ -100,12 +101,11 @@
 
     this.image.style.width = newWidth + "px";
     this.image.style.height = newHeight + "px";
-    this.verticallyCenter();
+    this.verticallyCenter(newHeight);
   };
 
-  ImageBox.prototype.verticallyCenter = function() {
+  ImageBox.prototype.verticallyCenter = function(resizedImageHeight) {
     var newPaddingTop = 0,
-        resizedImageHeight = this.image.height,
         containerHeight = this.container.clientHeight;
     if(resizedImageHeight < containerHeight) {
       newPaddingTop = (containerHeight - resizedImageHeight) / 2;
