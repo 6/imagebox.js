@@ -7,6 +7,10 @@
     return el.className.match(new RegExp('(^| )' + className + '( |$)'));
   }
 
+  function isValidImageDimension(num) {
+    return !isNullOrUndefined(num) && !isNaN(num) && num !== 0;
+  }
+
   var raf = window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
@@ -33,9 +37,9 @@
       throw new Error("No <img> found inside container element.");
     }
 
-    this.imageWidth = options.imageWidth || parseInt(this.image.getAttribute('data-width'));
-    this.imageHeight = options.imageHeight || parseInt(this.image.getAttribute('data-height'));
-    if (isNaN(this.imageWidth) || isNaN(this.imageHeight)) {
+    this.imageWidth = options.imageWidth || parseInt(this.image.getAttribute('data-width') || this.image.width);
+    this.imageHeight = options.imageHeight || parseInt(this.image.getAttribute('data-height') || this.image.height);
+    if (!isValidImageDimension(this.imageWidth) || !isValidImageDimension(this.imageHeight)) {
       throw new Error("Must specify image width and height.");
     }
 
