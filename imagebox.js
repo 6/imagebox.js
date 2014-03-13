@@ -64,7 +64,7 @@
   ImageBox.prototype.resize = function() {
     var self = this;
     raf(function() {
-      self.resetImageStyles();
+      self.resetStyles();
       self[self.scalingType]();
     });
   };
@@ -78,6 +78,23 @@
     this.image.style.width = this.container.offsetWidth + "px";
     var resizedImageHeight = (this.container.offsetWidth / this.imageWidth) * this.imageHeight;
     this.verticallyCenter(resizedImageHeight);
+  };
+
+  // Equivalent of CSS background-size: cover
+  ImageBox.prototype.fill = function() {
+    this.container.style.overflow = "hidden";
+    this.image.style.position = "relative";
+    this.image.style.minWidth = this.container.offsetWidth + "px";
+    this.image.style.minHeight = this.container.offsetHeight + "px";
+
+    if (this.image.width > this.container.offsetWidth) {
+      var left = (this.image.width - this.container.offsetWidth) / -2;
+      this.image.style.left = left + "px";
+    }
+    if (this.image.height > this.container.offsetHeight) {
+      var top = (this.image.height - this.container.offsetHeight) / -2;
+      this.image.style.top = top + "px";
+    }
   };
 
   ImageBox.prototype.fit = function() {
@@ -120,11 +137,17 @@
     this.image.style.paddingTop = newPaddingTop + "px";
   };
 
-  ImageBox.prototype.resetImageStyles = function() {
-    // Reset styles that may be set from other resize
+  ImageBox.prototype.resetStyles = function() {
+    // Reset styles that may be set from previous resize
+    this.container.style.overflow = "";
+    this.image.style.position = "";
+    this.image.style.top = "";
+    this.image.style.left = "";
     this.image.style.height = "";
     this.image.style.width = "";
     this.image.style.paddingTop = "";
+    this.image.style.minHeight = "";
+    this.image.style.minWidth = "";
   };
 
   if (typeof module === 'object' && typeof module.exports === 'object') {
