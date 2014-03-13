@@ -127,6 +127,22 @@ describe("ImageBox", function() {
       });
     });
 
+    describe("#fill", function() {
+      it("resizes the image to always be >= container size", function() {
+        var subject = new ImageBox(".container", {scalingType: "fill"});
+
+        $container.css({width: 1000, height: 50});
+        subject.resize();
+        expect($image.width() >= 1000).toBe(true);
+        expect($image.height() >= 50).toBe(true);
+
+        $container.css({width: 50, height: 1000});
+        subject.resize();
+        expect($image.width() >= 50).toBe(true);
+        expect($image.height() >= 1000).toBe(true);
+      });
+    });
+
     describe("#horizontalOverflowFill", function() {
       it("resizes the image to fill the container horizontally", function() {
         var subject = new ImageBox(".container", {scalingType: "horizontalOverflowFill"});
