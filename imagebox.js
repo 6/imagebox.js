@@ -64,14 +64,12 @@
   ImageBox.prototype.resize = function() {
     var self = this;
     raf(function() {
+      self.resetImageStyles();
       self[self.scalingType]();
     });
   };
 
   ImageBox.prototype.horizontalFill = function() {
-    // Reset styles that may be set from other resize
-    this.image.style.height = "";
-
     this.image.style.width = this.container.offsetWidth + "px";
     var resizedImageHeight = (this.container.offsetWidth / this.imageWidth) * this.imageHeight;
     this.verticallyCenter(resizedImageHeight);
@@ -115,6 +113,13 @@
       newPaddingTop = (containerHeight - resizedImageHeight) / 2;
     }
     this.image.style.paddingTop = newPaddingTop + "px";
+  };
+
+  ImageBox.prototype.resetImageStyles = function() {
+    // Reset styles that may be set from other resize
+    this.image.style.height = "";
+    this.image.style.width = "";
+    this.image.style.paddingTop = "";
   };
 
   if (typeof module === 'object' && typeof module.exports === 'object') {
