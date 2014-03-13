@@ -74,7 +74,7 @@
     this.image.style.height = this.container.offsetHeight + "px";
   };
 
-  ImageBox.prototype.horizontalFill = function() {
+  ImageBox.prototype.horizontalOverflowFill = function() {
     this.image.style.width = this.container.offsetWidth + "px";
     var resizedImageHeight = (this.container.offsetWidth / this.imageWidth) * this.imageHeight;
     this.verticallyCenter(resizedImageHeight);

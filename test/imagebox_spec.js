@@ -81,31 +81,31 @@ describe("ImageBox", function() {
     });
 
     context("on window resize", function() {
-      var subject, fitSpy, horizontalFillSpy;
+      var subject, fitSpy, horizontalOverflowFillSpy;
 
       beforeEach(function() {
         subject = new ImageBox(".container");
         fitSpy = sinon.spy(subject, 'fit');
-        horizontalFillSpy = sinon.spy(subject, 'horizontalFill');
+        horizontalOverflowFillSpy = sinon.spy(subject, 'horizontalOverflowFill');
       });
 
       afterEach(function() {
         fitSpy.restore();
-        horizontalFillSpy.restore();
+        horizontalOverflowFillSpy.restore();
       });
 
       it("calls the appropriate scaling method", function() {
         expect(fitSpy.called).toBe(false);
-        expect(horizontalFillSpy.called).toBe(false);
+        expect(horizontalOverflowFillSpy.called).toBe(false);
 
         subject.resize();
         expect(fitSpy.calledOnce).toBe(true);
-        expect(horizontalFillSpy.called).toBe(false);
+        expect(horizontalOverflowFillSpy.called).toBe(false);
 
-        subject.setScalingType('horizontalFill');
+        subject.setScalingType('horizontalOverflowFill');
 
         expect(fitSpy.calledOnce).toBe(true);
-        expect(horizontalFillSpy.calledOnce).toBe(true);
+        expect(horizontalOverflowFillSpy.calledOnce).toBe(true);
       });
     });
 
@@ -127,9 +127,9 @@ describe("ImageBox", function() {
       });
     });
 
-    describe("#horizontalFill", function() {
+    describe("#horizontalOverflowFill", function() {
       it("resizes the image to fill the container horizontally", function() {
-        var subject = new ImageBox(".container", {scalingType: "horizontalFill"});
+        var subject = new ImageBox(".container", {scalingType: "horizontalOverflowFill"});
 
         $container.css({width: 2000, height: 300});
         subject.resize();
