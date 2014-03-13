@@ -127,9 +127,9 @@ describe("ImageBox", function() {
       });
     });
 
-    describe("#fill", function() {
+    describe("#centerFill", function() {
       it("resizes the image to always be >= container size", function() {
-        var subject = new ImageBox(".container", {scalingType: "fill"});
+        var subject = new ImageBox(".container", {scalingType: "centerFill"});
 
         $container.css({width: 1000, height: 50});
         subject.resize();

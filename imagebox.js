@@ -81,7 +81,7 @@
   };
 
   // Equivalent of CSS background-size: cover
-  ImageBox.prototype.fill = function() {
+  ImageBox.prototype.centerFill = function() {
     this.container.style.overflow = "hidden";
     this.image.style.position = "relative";
     this.image.style.minWidth = this.container.offsetWidth + "px";
