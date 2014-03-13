@@ -8,7 +8,9 @@
   <style>
     * { margin: 0; padding: 0; }
     .imagebox-demo { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
-    .imagebox-demo .controls { position: fixed; bottom: 20px; right: 20px; }
+    .controls { position: fixed; bottom: 20px; right: 20px; }
+    .controls button { background: white; padding: 2px; outline: 0; }
+    .controls button.active {font-weight: bold; background: yellow; }
   </style>
 </head>
 <body>
@@ -19,7 +21,7 @@
   <div class="controls">
     <button role="scale" data-scaling-type="horizontalOverflowFill">Horizontal overflow fill</button>
     <button role="scale" data-scaling-type="fill">Fill</button>
-    <button role="scale" data-scaling-type="fit">Fit</button>
+    <button role="scale" data-scaling-type="fit" class="active">Fit</button>
     <button role="scale" data-scaling-type="stretch">Stretch</button>
   </div>
 </div>
@@ -27,14 +29,18 @@
 <script>
 (function() {
   var imageBox = new ImageBox(".imagebox-demo");
+  var scaleButtons = document.querySelectorAll('[role=scale]');
 
   function onClickCallback(scalingType)  {
     return function() {
       imageBox.setScalingType(scalingType);
+      for(var i = 0; i < scaleButtons.length; i++) {
+        scaleButtons[i].className = '';
+      }
+      this.className = 'active';
     };
   }
 
-  var scaleButtons = document.querySelectorAll('[role=scale]');
   for(var i = 0; i < scaleButtons.length; i++) {
     var button = scaleButtons[i];
     var listener = onClickCallback(button.getAttribute('data-scaling-type'));
