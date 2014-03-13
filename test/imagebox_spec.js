@@ -142,5 +142,23 @@ describe("ImageBox", function() {
         expect(parseInt($image.css("padding-top")) > 0).toBe(true);
       });
     });
+
+    describe("#stretch", function() {
+      it("resizes the image to fill the container horizontally and vertically", function() {
+        var subject = new ImageBox(".container", {scalingType: "stretch"});
+
+        $container.css({width: 2000, height: 300});
+        subject.resize();
+        expect($image.width()).toEqual(2000);
+        expect($image.height()).toEqual(300);
+        expect($image.css("padding-top")).toEqual("0px");
+
+        $container.css({width: 100, height: 500});
+        subject.resize();
+        expect($image.width()).toEqual(100);
+        expect($image.height()).toEqual(500);
+        expect($image.css("padding-top")).toEqual("0px");
+      });
+    });
   });
 });

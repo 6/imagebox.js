@@ -69,6 +69,11 @@
     });
   };
 
+  ImageBox.prototype.stretch = function() {
+    this.image.style.width = this.container.offsetWidth + "px";
+    this.image.style.height = this.container.offsetHeight + "px";
+  };
+
   ImageBox.prototype.horizontalFill = function() {
     this.image.style.width = this.container.offsetWidth + "px";
     var resizedImageHeight = (this.container.offsetWidth / this.imageWidth) * this.imageHeight;
