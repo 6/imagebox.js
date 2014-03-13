@@ -17,8 +17,8 @@
   <img src="tall.png" data-width="671" data-height="1000">
 
   <div class="controls">
-    <button role="scale-horizontal-fill">Horizontal fill</button>
-    <button role="scale-fit">Fit</button>
+    <button role="scale" data-scaling-type="horizontalFill">Horizontal fill</button>
+    <button role="scale" data-scaling-type="fit">Fit</button>
   </div>
 </div>
 
@@ -26,13 +26,18 @@
 (function() {
   var imageBox = new ImageBox(".imagebox-demo");
 
-  document.querySelector('[role=scale-fit]').addEventListener('click', function() {
-    imageBox.setScalingType('fit');
-  }, false);
+  function onClickCallback(scalingType)  {
+    return function() {
+      imageBox.setScalingType(scalingType);
+    };
+  }
 
-  document.querySelector('[role=scale-horizontal-fill]').addEventListener('click', function() {
-    imageBox.setScalingType('horizontalFill');
-  }, false);
+  var scaleButtons = document.querySelectorAll('[role=scale]');
+  for(var i = 0; i < scaleButtons.length; i++) {
+    var button = scaleButtons[i];
+    var listener = onClickCallback(button.getAttribute('data-scaling-type'));
+    button.addEventListener('click', listener, false);
+  }
 })();
 </script>
 
