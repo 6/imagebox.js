@@ -64,15 +64,37 @@
   ImageBox.prototype.resize = function() {
     var self = this;
     raf(function() {
-      self.resetImageStyles();
+      self.resetStyles();
       self[self.scalingType]();
     });
   };
 
-  ImageBox.prototype.horizontalFill = function() {
+  ImageBox.prototype.stretch = function() {
+    this.image.style.width = this.container.offsetWidth + "px";
+    this.image.style.height = this.container.offsetHeight + "px";
+  };
+
+  ImageBox.prototype.horizontalOverflowFill = function() {
     this.image.style.width = this.container.offsetWidth + "px";
     var resizedImageHeight = (this.container.offsetWidth / this.imageWidth) * this.imageHeight;
     this.verticallyCenter(resizedImageHeight);
+  };
+
+  // Equivalent of CSS background-size: cover
+  ImageBox.prototype.fill = function() {
+    this.container.style.overflow = "hidden";
+    this.image.style.position = "relative";
+    this.image.style.minWidth = this.container.offsetWidth + "px";
+    this.image.style.minHeight = this.container.offsetHeight + "px";
+
+    if (this.image.width > this.container.offsetWidth) {
+      var left = (this.image.width - this.container.offsetWidth) / -2;
+      this.image.style.left = left + "px";
+    }
+    if (this.image.height > this.container.offsetHeight) {
+      var top = (this.image.height - this.container.offsetHeight) / -2;
+      this.image.style.top = top + "px";
+    }
   };
 
   ImageBox.prototype.fit = function() {
@@ -115,11 +137,13 @@
     this.image.style.paddingTop = newPaddingTop + "px";
   };
 
-  ImageBox.prototype.resetImageStyles = function() {
-    // Reset styles that may be set from other resize
-    this.image.style.height = "";
-    this.image.style.width = "";
-    this.image.style.paddingTop = "";
+  ImageBox.prototype.resetStyles = function() {
+    // Reset styles that may be set from previous resize
+    this.container.style.overflow = "";
+    var attributes = ["position", "top", "left", "height", "width", "paddingTop", "minHeight", "minWidth"];
+    for (var i = 0; i < attributes.length; i++) {
+      this.image.style[attributes[i]] = "";
+    }
   };
 
   if (typeof module === 'object' && typeof module.exports === 'object') {
