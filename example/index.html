@@ -8,6 +8,7 @@
   <style>
     * { margin: 0; padding: 0; }
     .imagebox-demo { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+    .instructions {position: fixed; color: white; text-shadow: 0 0 4px rgb(0,0,0); top: 4px; left: 4px;}
     .controls { position: fixed; bottom: 20px; right: 20px; }
     .controls button { background: white; padding: 2px; outline: 0; }
     .controls button.active {font-weight: bold; background: yellow; }
@@ -16,6 +17,8 @@
 <body>
 
 <div class="imagebox-demo">
+  <p class="instructions">Resize your browser window</p>
+
   <img src="tall.png" data-width="671" data-height="1000">
 
   <div class="controls">
